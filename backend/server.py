@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 from db import db
 
@@ -18,13 +18,15 @@ def show_status():
 @server.route("/create", methods = ["POST"])
 def create_todo():
     todo = request.data.decode("utf-8")
+    db.create_new_todo(todo)
     return f"TODO {todo} soll erstellt werden"
 
 
 @server.route("/overview", methods = ["GET"])
 def fetch_all_todos():
-    print("TODOS sollen gefetched werden")
-    return "TODOS sollen gefetched werden"
+    fetchedTodos = db.fetch_all_todos()
+    response = jsonify(fetchedTodos)
+    return response
 
 if __name__ == "__main__":
     server.run()

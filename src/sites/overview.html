@@ -4,8 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Übersicht</title>
+    <style>
+        .todo-item {
+            border: 2px solid #333;
+            border-radius: 15px;
+            display: flex;
+            justify-content: around;
+            align-items: center;
+            padding: 0 100px 0 20px;
+            margin: 15px 0;
+        }
+        .done-item {
+            margin-left: auto;
+        }
+
+    </style>
 </head>
 <body>
     <a href="../../index.html">Startseite</a>
+
+    <script defer>
+        "use strict"
+        const URL_INDEX         = "http://127.0.0.1:5500/index.html";
+        const URL_ONLINECHECK   = "http://127.0.0.1:5000/";
+        const URL_OVERVIEW      = "http://127.0.0.1:5000/overview";
+
+        fetch(URL_OVERVIEW)
+        .then(res => res.json())
+        .then(todos => {
+            console.log(todos);
+            if(todos.length > 0) {
+                for(let item of todos) {
+                    renderTodo(item);
+                }
+            }
+        });
+
+
+        function renderTodo(todo) {
+            let item = document.createElement("div");
+            item.classList = "todo-item";
+
+                let name = document.createElement("p");
+                name.innerText = todo.name;
+
+                let done = document.createElement("p");
+                done.classList = "done-item";
+                done.innerText = +todo.done === 0 ?
+                                "OFFEN" : "ERLEDIGT";
+                
+            item.append(name);
+            item.append(done);
+            document.querySelector("body").insertAdjacentElement("afterbegin", item);
+        }
+    </script>
 </body>
 </html>

@@ -18,4 +18,23 @@ def create_new_todo(todo):
         f"VALUES ('{todo}', 0)"
     cursor.execute(sql)
     connection.commit()
+    connection.close()
     return f"{todo} wurde eingetragen"
+
+def fetch_all_todos():
+    connection = sqlite3.connect("todo-db.db")
+    connection.row_factory = sqlite3.Row
+    cursor = connection.cursor()
+
+    sql = "SELECT name, done FROM todos"
+    cursor.execute(sql)
+
+    fetchedTodos = cursor.fetchall()
+    connection.close()
+    print(type(fetchedTodos))
+
+    allEntries = []
+    for row in fetchedTodos:
+        allEntries.append({"name": row["name"], "done": row["done"]})
+
+    return allEntries
