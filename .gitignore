@@ -2,3 +2,5 @@
 
 #Python's VENV
 **/backend/venv
+#Database
+todo-db.db
